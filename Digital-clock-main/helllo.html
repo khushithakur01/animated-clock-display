@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Background with CSS Doodle</title>
+    <script src="https://unpkg.com/css-doodle@0.34/css-doodle.min.js"></script>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #fff;
+        }
+
+        css-doodle {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <css-doodle>
+        :doodle {
+            @grid: 15x15 / 100vmax;
+            background: #fff;
+        }
+
+        :after {
+            content: @pick(A, B, C, D);
+            font-size: 4vmax;
+            color: #000;
+            transform: scale(@rand(0.2, 0.9));
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        :doodle(:hover) {
+            --s: 1;
+        }
+
+        transform: translateY(calc(var(--s) * 100%)) rotate(calc(var(--s) * 360deg));
+    </css-doodle>
+
+</body>
+</html>

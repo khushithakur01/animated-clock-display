@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triple Purple Clocks</title>
+    <style>
+        /* 🌟 Background Pattern */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(45deg, #6a0dad, #8b5cf6);
+            background-image: radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px);
+            background-size: 20px 20px;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        /* 🔥 Clock Container */
+        .clocks {
+            display: flex;
+            gap: 50px;
+        }
+
+        .clock {
+            background: radial-gradient(circle, #eee 40%, #ccc 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.7);
+            position: relative;
+            border: 8px solid #6a0dad;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Different Sizes */
+        #clock1 { width: 220px; height: 220px; }
+        #clock2 { width: 180px; height: 180px; }
+        #clock3 { width: 140px; height: 140px; }
+
+        /* Clock Hands */
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: bottom;
+            transform: translateX(-50%) rotate(0deg);
+            transition-timing-function: steps(1, end);
+            border-radius: 5px;
+        }
+
+        .hour-hand { background-color: #6a0dad; }
+        .minute-hand { background-color: #7c3aed; }
+        .second-hand { background-color: #d8b4fe; }
+
+        /* Size Adjustments */
+        #clock1 .hour-hand { width: 8px; height: 60px; }
+        #clock1 .minute-hand { width: 5px; height: 80px; }
+        #clock1 .second-hand { width: 3px; height: 100px; }
+
+        #clock2 .hour-hand { width: 6px; height: 50px; }
+        #clock2 .minute-hand { width: 4px; height: 70px; }
+        #clock2 .second-hand { width: 2px; height: 90px; }
+
+        #clock3 .hour-hand { width: 4px; height: 40px; }
+        #clock3 .minute-hand { width: 3px; height: 60px; }
+        #clock3 .second-hand { width: 2px; height: 80px; }
+
+        /* 🔵 Center Point */
+        .center-circle {
+            width: 12px;
+            height: 12px;
+            background-color: #6a0dad;
+            border-radius: 50%;
+            position: absolute;
+            box-shadow: 0 0 5px rgba(75, 0, 130, 0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <h2 style="color: white; text-shadow: 2px 2px 4px #000;">Triple Purple Shadow Clocks</h2>
+
+    <div class="clocks">
+        <div class="clock" id="clock1">
+            <div class="hand hour-hand"></div>
+            <div class="hand minute-hand"></div>
+            <div class="hand second-hand"></div>
+            <div class="center-circle"></div>
+        </div>
+
+        <div class="clock" id="clock2">
+            <div class="hand hour-hand"></div>
+            <div class="hand minute-hand"></div>
+            <div class="hand second-hand"></div>
+            <div class="center-circle"></div>
+        </div>
+
+        <div class="clock" id="clock3">
+            <div class="hand hour-hand"></div>
+            <div class="hand minute-hand"></div>
+            <div class="hand second-hand"></div>
+            <div class="center-circle"></div>
+        </div>
+    </div>
+
+    <script>
+        function updateClock(clockId, offset) {
+            const now = new Date();
+            now.setHours(now.getHours() + offset);
+
+            const hours = now.getHours() % 12;
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            const hourDeg = (360 / 12) * hours + (30 / 60) * minutes;
+            const minuteDeg = (360 / 60) * minutes;
+            const secondDeg = (360 / 60) * seconds;
+
+            const clock = document.getElementById(clockId);
+            clock.querySelector(".hour-hand").style.transform = `translateX(-50%) rotate(${hourDeg}deg)`;
+            clock.querySelector(".minute-hand").style.transform = `translateX(-50%) rotate(${minuteDeg}deg)`;
+            clock.querySelector(".second-hand").style.transform = `translateX(-50%) rotate(${secondDeg}deg)`;
+        }
+
+        function updateAllClocks() {
+            updateClock("clock1", 0);
+            updateClock("clock2", 3);
+            updateClock("clock3", -3);
+        }
+
+        setInterval(updateAllClocks, 1000);
+        updateAllClocks();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Clocks with Hover Background</title>
+    <script src="https://unpkg.com/css-doodle@0.34/css-doodle.min.js"></script>
+    <!-- <script src="https://unpkg.com/css-doodle@0.34/css-doodle.min.js"></script> -->
+    <style>
+        /* 🌟 Full-Screen Background */
+        body {
+            font-family: system-ui, sans-serif;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* CSS Doodle Background */
+        css-doodle {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Background pe rakha */
+        }
+
+        /* 🔥 Clocks Styling */
+        .clocks {
+            display: flex;
+            gap: 30px;
+            z-index: 1;
+        }
+
+        .clock {
+            background: radial-gradient(circle, black 40%, #ccc 100%);
+            border-radius: 50%;
+            border: 6px solid #6a0dad;
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.7);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Clock Sizes */
+        .clock.large { width: 220px; height: 220px; }
+        .clock.medium { width: 180px; height: 180px; }
+        .clock.small { width: 140px; height: 140px; }
+
+        /* Clock Hands */
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: bottom;
+            transform: translateX(-50%) rotate(0deg);
+            transition-timing-function: steps(1, end);
+            border-radius: 5px;
+            box-shadow: 0px 3px 5px rgba(128, 0, 128, 0.5);
+        }
+
+        .hour-hand { width: 7px; background-color: #6a0dad; }
+        .minute-hand { width: 4px; background-color: #7c3aed; }
+        .second-hand { width: 2px; background-color: #d8b4fe; }
+
+        /* Set Different Heights for Clock Hands */
+        .large .hour-hand { height: 60px; }
+        .large .minute-hand { height: 80px; }
+        .large .second-hand { height: 90px; }
+
+        .medium .hour-hand { height: 50px; }
+        .medium .minute-hand { height: 70px; }
+        .medium .second-hand { height: 80px; }
+
+        .small .hour-hand { height: 40px; }
+        .small .minute-hand { height: 60px; }
+        .small .second-hand { height: 70px; }
+
+        /* 🔵 Center Point */
+        .center-circle {
+            background-color: #6a0dad;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 5px rgba(75, 0, 130, 0.8);
+        }
+
+        .large .center-circle { width: 14px; height: 14px; }
+        .medium .center-circle { width: 12px; height: 12px; }
+        .small .center-circle { width: 10px; height: 10px; }
+
+
+        
+    </style>
+</head>
+<body>
+
+    <!-- CSS Doodle Animated Background -->
+    <css-doodle>
+        :doodle {
+            @grid: 15x15 / 100vmax;
+            background: #6a0dad;
+        }
+    </css-doodle>
+    <h2 style="color: white; text-shadow: 2px 2px 4px #000; font-size: 100px;">Watch</h2>
+
+    <div class="clocks">
+        <div class="clock large" id="clock1">
+            <div class="hand hour-hand"></div>
+            <div class="hand minute-hand"></div>
+            <div class="hand second-hand"></div>
+            <div class="center-circle"></div>
+        </div>
+
+        <div class="clock medium" id="clock2">
+            <div class="hand hour-hand"></div>
+            <div class="hand minute-hand"></div>
+            <div class="hand second-hand"></div>
+            <div class="center-circle"></div>
+        </div>
+
+        <div class="clock small" id="clock3">
+            <div class="hand hour-hand"></div>
+            <div class="hand minute-hand"></div>
+            <div class="hand second-hand"></div>
+            <div class="center-circle"></div>
+        </div>
+    </div>
+
+    <script>
+        function updateClock(clockId, offset) {
+            const now = new Date();
+            now.setHours(now.getHours() + offset);
+
+            const hours = now.getHours() % 12;
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            const hourDeg = (360 / 12) * hours + (30 / 60) * minutes;
+            const minuteDeg = (360 / 60) * minutes;
+            const secondDeg = (360 / 60) * seconds;
+
+            const clock = document.getElementById(clockId);
+            clock.querySelector(".hour-hand").style.transform = `translateX(-50%) rotate(${hourDeg}deg)`;
+            clock.querySelector(".minute-hand").style.transform = `translateX(-50%) rotate(${minuteDeg}deg)`;
+            clock.querySelector(".second-hand").style.transform = `translateX(-50%) rotate(${secondDeg}deg)`;
+        }
+
+        function updateAllClocks() {
+            updateClock("clock1", 0);  // Local Time
+            updateClock("clock2", 2);  // 2 Hours Ahead
+            updateClock("clock3", -2); // 2 Hours Behind
+        }
+
+        setInterval(updateAllClocks, 1000);
+        updateAllClocks();
+
+
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const letterElements = [];
+
+        for (let i = 0; i < 50; i++) { // Adjust number of letters as needed
+            const span = document.createElement('span');
+            span.textContent = letters[Math.floor(Math.random() * letters.length)];
+            span.classList.add('letter');
+            span.style.top = Math.random() * 100 + 'vh';
+            span.style.left = Math.random() * 100 + 'vw';
+            document.body.appendChild(span);
+            letterElements.push(span);
+        }
+
+        document.body.addEventListener('click', (event) => {
+            const { clientX, clientY } = event;
+            letterElements.forEach(span => {
+                const offsetX = clientX - window.innerWidth / 2;
+                const offsetY = clientY - window.innerHeight / 2;
+                span.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+            });
+        });
+    </script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+    <style>
+         body {
+            font-family: system-ui, sans-serif;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            position: relative;
+            background: #6a0dad;
+        }
+
+        css-doodle {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .letter {
+            position: absolute;
+            font-size: 4rem;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 1s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    
+
+    
+</body>
+</html>

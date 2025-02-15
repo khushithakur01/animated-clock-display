@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stylish Analog Watch</title>
+    <style>
+        /* 🌟 Background Animation */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fad0c4, #ffdde1);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ⏰ Watch Container */
+        .clock {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, #fff 40%, #ddd 100%);
+            border-radius: 50%;
+            border: 8px solid #222;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+
+        /* 🕰 Hands */
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: bottom;
+            transform: translateX(-50%) rotate(0deg);
+            transition-timing-function: steps(1, end);
+            border-radius: 5px;
+        }
+
+        .hour-hand {
+            width: 8px;
+            height: 60px;
+            background-color: black;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .minute-hand {
+            width: 5px;
+            height: 80px;
+            background-color: gray;
+        }
+
+        .second-hand {
+            width: 3px;
+            height: 90px;
+            background-color: red;
+        }
+
+        /* 🔵 Center Point */
+        .center-circle {
+            width: 15px;
+            height: 15px;
+            background-color: black;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="clock">
+        <div class="hand hour-hand"></div>
+        <div class="hand minute-hand"></div>
+        <div class="hand second-hand"></div>
+        <div class="center-circle"></div>
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours() % 12;
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            const hourDeg = (360 / 12) * hours + (30 / 60) * minutes;
+            const minuteDeg = (360 / 60) * minutes;
+            const secondDeg = (360 / 60) * seconds;
+
+            document.querySelector(".hour-hand").style.transform = `translateX(-50%) rotate(${hourDeg}deg)`;
+            document.querySelector(".minute-hand").style.transform = `translateX(-50%) rotate(${minuteDeg}deg)`;
+            document.querySelector(".second-hand").style.transform = `translateX(-50%) rotate(${secondDeg}deg)`;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>
